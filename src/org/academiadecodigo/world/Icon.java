@@ -31,9 +31,9 @@ public class Icon {
                 circle.getY()};
     }
 
-    protected int[] getDiameters() {
-        return new int[]{circle.getWidth(),
-                circle.getHeight()};
+    protected int getDiameter() {
+        return circle.getWidth();
+
     }
 
     protected void showIcon() {
@@ -64,6 +64,11 @@ public class Icon {
         int y = iconY - name.getHeight()/2;
 
         name.translate(x - name.getX(), y - name.getY());
+    }
+
+    public void rePos(double x, double y) {
+        circle.translate(x,y);
+
     }
 
 }

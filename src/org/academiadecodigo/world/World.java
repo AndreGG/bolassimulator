@@ -58,6 +58,8 @@ public class World implements KeyboardHandler, MouseHandler {
         int x = (int) mouseEvent.getX();
         int y = (int) mouseEvent.getY();
 
+        System.out.println(mouseEvent);
+
 
         if (!people.personOnClick(x,y)) {
 

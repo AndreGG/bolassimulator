@@ -1,8 +1,6 @@
 package org.academiadecodigo.world;
 
-import org.academiadecodigo.simplegraphics.graphics.Ellipse;
 import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Text;
 
 /**
  * Created by cadet on 28/09/15.
