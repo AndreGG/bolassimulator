@@ -60,6 +60,7 @@ public class World implements KeyboardHandler, MouseHandler {
 
 
         if (!people.personOnClick(x,y)) {
+
             Person person = new Person("joe",x,y);
             people.addPerson(person);
         }

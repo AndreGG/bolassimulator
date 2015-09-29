@@ -14,28 +14,34 @@ public class People {
 
     public void addPerson(Person person) {
 
+        if (isTooClose(person)) {
+
+        }
         people.add(person);
+        person.icon.showIcon();
     }
-
-
 
 
     public boolean personOnClick(int x, int y) {
 
-        for ( int i = 0; i < people.size(); i++ ) {
+        for ( Person p : people ) {
 
-            if (x > people.get(i).getXBorder()[0]
-                    && x < people.get(i).getXBorder()[1]) {
-                if (y > people.get(i).getYBorder()[0]
-                        && y < people.get(i).getYBorder()[1]) {
+            if (x > p.icon.getPos()[0]
+             && x < p.icon.getPos()[0] + p.icon.getDiameters()[0]) {
+                if (y > p.icon.getPos()[1]
+                 && y < p.icon.getPos()[1] + p.icon.getDiameters()[1]) {
                     System.out.println("There's a person here");
 
-                    System.out.println(x);
-                    System.out.println(y);
+                    p.selPerson();
                     return true;
                 }
             }
         }
+        return false;
+    }
+
+    private boolean isTooClose(Person person) {
+
 
         return false;
     }
