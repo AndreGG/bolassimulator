@@ -7,8 +7,6 @@ import org.academiadecodigo.simplegraphics.graphics.Color;
  */
 public class Person {
 
-    private static final int offset = 23;
-
     private String name;
     private Info info;
     Icon icon;
@@ -31,6 +29,26 @@ public class Person {
 
     public void selPerson() {
         icon.setColor(Color.GREEN);
+    }
+
+    public int getRadius() {
+        return icon.circle.getRadius();
+    }
+
+    public int[] getPos() {
+        return icon.getPos();
+    }
+
+    public void showIcon() {
+        icon.showIcon();
+    }
+
+
+    public void rePos(double dx, double dy) {
+        icon.rePos(dx,dy);
+    }
+    public boolean contains(double x, double y) {
+        return icon.circle.contains((int)x,(int)y);
     }
 
 

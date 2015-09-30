@@ -1,5 +1,6 @@
 package org.academiadecodigo.world;
 
+import org.academiadecodigo.graphics.Circle;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Ellipse;
 import org.academiadecodigo.simplegraphics.graphics.Text;
@@ -9,31 +10,34 @@ import org.academiadecodigo.simplegraphics.graphics.Text;
  */
 public class Icon {
 
-    private static final int offset = 23;
-    private Ellipse circle;
-    private Text name;
+    Circle circle;
+    Text name;
 
 
-    public Icon(String name, double x, double y, double diameter) {
+    public Icon(String name, double x, double y, double radius) {
 
-        diameter = 100;
-        x -= (int) (diameter / 2);
-        y -= (int) (diameter / 2 + offset);
+        radius = 50;
 
-        circle = new Ellipse(x, y, diameter, diameter);
+        circle = new Circle((int)x, (int)y, (int)radius);
         circle.setColor(Color.LIGHT_GRAY);
 
         this.name = new Text(0,0,name);
     }
 
-    protected int[] getPos() {
-        return new int[]{circle.getX(),
-                circle.getY()};
+    public void rePos(double dx, double dy) {
+
+
+        for (int i = 1; i < 100; i++) {
+            circle.move(dx/100,dy/100);
+            name.translate(dx/100,dy/100);
+
+        }
+
     }
 
-    protected int getDiameter() {
-        return circle.getWidth();
-
+    protected int[] getPos() {
+        return new int[]{circle.getCX(),
+                circle.getCY()};
     }
 
     protected void showIcon() {
@@ -45,7 +49,8 @@ public class Icon {
         circle.delete();
 
     }
-    public void setColor(Color color) {
+
+    protected void setColor(Color color) {
         circle.setColor(color);
     }
 
@@ -64,11 +69,6 @@ public class Icon {
         int y = iconY - name.getHeight()/2;
 
         name.translate(x - name.getX(), y - name.getY());
-    }
-
-    public void rePos(double x, double y) {
-        circle.translate(x,y);
-
     }
 
 }

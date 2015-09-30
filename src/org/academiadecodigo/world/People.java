@@ -14,11 +14,9 @@ public class People {
 
     public void addPerson(Person person) {
 
-        if (isTooClose(person)) {
-            rePosNewPerson(person);
-        }
         people.add(person);
-        person.icon.showIcon();
+        person.showIcon();
+        World.needsRePositioning();
 
     }
 
@@ -26,80 +24,55 @@ public class People {
     public boolean personOnClick(int x, int y) {
 
         for (Person p : people) {
-
-            if (x > p.icon.getPos()[0]
-                    && x < p.icon.getPos()[0] + p.icon.getDiameter()) {
-                if (y > p.icon.getPos()[1]
-                        && y < p.icon.getPos()[1] + p.icon.getDiameter()) {
-                    System.out.println("There's a person here");
-
-                    p.selPerson();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean isTooClose(Person person) {
-
-        double x = person.icon.getPos()[0];
-        double y = person.icon.getPos()[1];
-        int diameter = person.icon.getDiameter();
-
-        for (Person p : people) {
-
-            double x2 = p.icon.getPos()[0];
-            double y2 = p.icon.getPos()[1];
-            double minDist = diameter / 2 + p.icon.getDiameter() / 2;
-
-            double dist = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
-
-            if (dist < minDist) {
+            if (p.contains(x, y)) {
+                p.selPerson();
+                World.stopRePosition();
                 return true;
             }
         }
-
         return false;
     }
 
-    private void rePosNewPerson(Person person) {
+    public void rePositionPeople() {
 
+        for (Person p1 : people) {
 
-        int x = person.icon.getPos()[0];
-        int y = person.icon.getPos()[1];
+            for (Person p2 : people) {
 
-        for (Person p : people) {
+                if (p1 != p2) {
+                    double x1 = p1.getPos()[0];
+                    double x2 = p2.getPos()[0];
+                    double y1 = p1.getPos()[1];
+                    double y2 = p2.getPos()[1];
+                    double minDist = p1.getRadius() + p2.getRadius();
+                    double dist = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 
-            double x2 = p.icon.getPos()[0];
-            double y2 = p.icon.getPos()[1];
-            double minDist = person.icon.getDiameter() / 2 + p.icon.getDiameter() / 2;
+                    if (dist < minDist) {
 
-            double dist = Math.sqrt(Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2));
+                        double slope = (y2 - y1) / (x2 - x1);
+                        double translate = minDist - dist;
+                        double dx = translate / Math.sqrt(1 + Math.pow(slope, 2));
+                        double dy;
 
+                        if (dx == 0) {
+                            dy = translate;
+                        } else {
+                            if (x1 > x2) {
+                                dx = -dx;
+                            }
+                            dy = dx * slope;
+                        }
 
-            if (dist < minDist) {
+                        p2.rePos(dx/2, dy/2);
+                        p1.rePos(-dx/2,-dy/2);
+                        rePositionPeople();
 
-                double slope = (y2 - y) / (x2 - x);
-                double translate = minDist - dist;
-
-                double dx = translate / Math.sqrt(1 + Math.pow(slope, 2));
-                double dy;
-
-                if (dx == 0) {
-                    dy = translate;
-                } else {
-                    if (x < x2) {
-                        dx = -dx;
                     }
-                    dy = dx * slope;
                 }
-
-                person.icon.rePos(dx,dy);
             }
         }
 
-
+        World.stopRePosition();
     }
-
 }
+

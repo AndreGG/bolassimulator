@@ -13,8 +13,11 @@ import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
  */
 public class World implements KeyboardHandler, MouseHandler {
 
+    private static final int offset = 23;
     private People people;
     private int counter;
+
+    private static boolean needsRePositioning = false;
 
 
     public World() {
@@ -24,9 +27,36 @@ public class World implements KeyboardHandler, MouseHandler {
         keyListener();
         mouseListener();
 
+        animate();
+
     }
 
 
+    public void animate() {
+        while(true) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            checkForRePositioning();
+        }
+    }
+
+    public static void needsRePositioning() {
+        needsRePositioning = true;
+    }
+
+    public void checkForRePositioning() {
+        if (needsRePositioning == true) {
+            people.rePositionPeople();
+        }
+    }
+
+    public static void stopRePosition() {
+        needsRePositioning = false;
+    }
 
     public void keyListener() {
         Keyboard k = new Keyboard(this);
@@ -55,11 +85,11 @@ public class World implements KeyboardHandler, MouseHandler {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
-        int x = (int) mouseEvent.getX();
-        int y = (int) mouseEvent.getY();
 
         System.out.println(mouseEvent);
 
+        int x = (int) mouseEvent.getX();
+        int y = (int) mouseEvent.getY() - offset;
 
         if (!people.personOnClick(x,y)) {
 
