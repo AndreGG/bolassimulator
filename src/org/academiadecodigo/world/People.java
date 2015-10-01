@@ -44,6 +44,7 @@ public class People {
                     double x2 = p2.getPos()[0];
                     double y1 = p1.getPos()[1];
                     double y2 = p2.getPos()[1];
+
                     double minDist = p1.getRadius() + p2.getRadius();
                     double dist = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 

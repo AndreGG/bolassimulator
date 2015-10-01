@@ -40,7 +40,9 @@ public class World implements KeyboardHandler, MouseHandler {
                 e.printStackTrace();
             }
 
-            checkForRePositioning();
+            if (needsRePositioning) {
+                people.rePositionPeople();
+            }
         }
     }
 
@@ -48,11 +50,6 @@ public class World implements KeyboardHandler, MouseHandler {
         needsRePositioning = true;
     }
 
-    public void checkForRePositioning() {
-        if (needsRePositioning == true) {
-            people.rePositionPeople();
-        }
-    }
 
     public static void stopRePosition() {
         needsRePositioning = false;
