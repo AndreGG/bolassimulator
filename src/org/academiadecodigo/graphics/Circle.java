@@ -49,4 +49,21 @@ public class Circle extends Ellipse {
             return true;
         }
     }
+
+
+    public boolean contains(Circle circle) {
+
+        int x = circle.getCX();
+        int y = circle.getCY();
+
+        double minDist = getRadius() + circle.getRadius();
+        double dist = Math.sqrt(Math.pow(cy - y,2) + Math.pow(cx - x,2));
+
+        if (dist < minDist) {
+            return true;
+        }
+
+        return false;
+
+    }
 }

@@ -43,12 +43,16 @@ public class Person {
         icon.showIcon();
     }
 
-
     public void rePos(double dx, double dy) {
-        icon.rePos(dx,dy);
+        icon.rePos(dx, dy);
     }
+
     public boolean contains(double x, double y) {
         return icon.circle.contains((int)x,(int)y);
+    }
+
+    public boolean contains(Person person) {
+        return icon.circle.contains(person.icon.circle);
     }
 
 

@@ -1,5 +1,7 @@
 package org.academiadecodigo.world;
 
+import org.academiadecodigo.site.UnclickableException;
+
 import java.util.ArrayList;
 
 /**
@@ -12,11 +14,16 @@ public class People {
     public People() {
     }
 
-    public void addPerson(Person person) {
+    public void addPerson(Person person) throws UnclickableException {
 
-        people.add(person);
-        person.showIcon();
-        World.needsRePositioning();
+        if (World.needsRePositioning) {
+
+            throw new UnclickableException("You need to wait to click again");
+        } else {
+            people.add(person);
+            person.showIcon();
+            World.needsRePositioning();
+        }
 
     }
 
@@ -25,7 +32,6 @@ public class People {
 
         for (Person p : people) {
             if (p.contains(x, y)) {
-                p.selPerson();
                 World.stopRePosition();
                 return true;
             }
@@ -48,9 +54,17 @@ public class People {
                     double minDist = p1.getRadius() + p2.getRadius();
                     double dist = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 
+
                     if (dist < minDist) {
 
-                        double slope = (y2 - y1) / (x2 - x1);
+                        double slope;
+
+                        if (dist == 0) {
+                            slope = 1;
+                        } else {
+                            slope = (y2 - y1) / (x2 - x1);
+                        }
+
                         double translate = minDist - dist;
                         double dx = translate / Math.sqrt(1 + Math.pow(slope, 2));
                         double dy;

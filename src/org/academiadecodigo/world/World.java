@@ -7,6 +7,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
+import org.academiadecodigo.site.UnclickableException;
 
 /**
  * Created by cadet on 28/09/15.
@@ -15,9 +16,8 @@ public class World implements KeyboardHandler, MouseHandler {
 
     private static final int offset = 23;
     private People people;
-    private int counter;
 
-    private static boolean needsRePositioning = false;
+    public static boolean needsRePositioning = false;
 
 
     public World() {
@@ -33,7 +33,7 @@ public class World implements KeyboardHandler, MouseHandler {
 
 
     public void animate() {
-        while(true) {
+        while (true) {
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
@@ -65,7 +65,6 @@ public class World implements KeyboardHandler, MouseHandler {
 
     public void mouseListener() {
         Mouse m = new Mouse(this);
-
     }
 
 
@@ -88,13 +87,15 @@ public class World implements KeyboardHandler, MouseHandler {
         int x = (int) mouseEvent.getX();
         int y = (int) mouseEvent.getY() - offset;
 
-        if (!people.personOnClick(x,y)) {
 
-            Person person = new Person("joe",x,y);
+        try {
+            Person person = new Person("joe", x, y);
             people.addPerson(person);
+        } catch (UnclickableException e) {
+            System.out.println(e.getMessage());
         }
 
-    }
 
+    }
 }
 

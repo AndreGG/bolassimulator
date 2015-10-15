@@ -26,10 +26,12 @@ public class Icon {
 
     public void rePos(double dx, double dy) {
 
+        int numOfFrames = 100;
 
-        for (int i = 1; i < 100; i++) {
-            circle.move(dx/100,dy/100);
-            name.translate(dx/100,dy/100);
+
+        for (int i = 1; i < numOfFrames; i++) {
+            circle.move(dx/numOfFrames,dy/numOfFrames);
+            name.translate(dx/numOfFrames,dy/numOfFrames);
 
         }
 
